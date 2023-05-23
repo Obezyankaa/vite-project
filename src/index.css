@@ -1,0 +1,11 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    color: aliceblue;
+    background-color: rgb(32, 33, 36);
+    height: 2000px;
+}
