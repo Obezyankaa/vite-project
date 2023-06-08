@@ -1,41 +1,37 @@
-import { useState, useEffect } from "react";
-import "./app.css";
-import { useRef } from "react";
+import { useEffect, useState } from "react";
+
 
 export default function App() {
-const [scrollDirection, setScrollDirection] = useState("none");
-const [isVisible, setIsVisible] = useState(true);
-  
-
-  const handleScroll = () => {
-    const currentScrollPos = window.pageYOffset;
-    if (currentScrollPos > scrollPos.current) {
-      setScrollDirection("down");
-      setIsVisible(false);
-    } else if (currentScrollPos < scrollPos.current) {
-      setScrollDirection("up");
-      setIsVisible(true);
-    }
-    scrollPos.current = currentScrollPos;
-  };
-
-  const scrollPos = useRef(0);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    fetchData();
   }, []);
-  
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/data"); // Замените '/api/data' на ваш маршрут на бекенде
+      const jsonData = await response.json();
+      setData(jsonData);
+    } catch (error) {
+      console.error('Ошибка при получении данных:', error);
+    }
+  }
 
   return (
     <>
-    
-    <div className={`header-container ${isVisible ? "visible" : "hidden"}`}>
-      <h2>Disappearing Header</h2>
-    </div>
-      <p>Scroll direction: {scrollDirection}</p>
+      <h1>App</h1>
+      <div>
+        {data ? (
+          <ul>
+            {data.map((item) => (
+              <li key={item.id}>{item.name}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>Загрузка данных...</p>
+        )}
+      </div>
     </>
   );
 }
