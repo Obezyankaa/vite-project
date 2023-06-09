@@ -33,5 +33,5 @@ apiRouter.get("/data", (req, res) => {
 app.use("/api", apiRouter); // Используем базовый путь "/api" для маршрутов API
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+  console.log(`Старт 🏎️ 💨 ${PORT}`);
 });
