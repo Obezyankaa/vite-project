@@ -10,7 +10,7 @@ export default function App() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/data"); // Замените '/api/data' на ваш маршрут на бекенде
+      const response = await fetch("http://localhost:3001/api/data"); // Замените '/api/data' на ваш маршрут на бекенде
       const jsonData = await response.json();
       setData(jsonData);
     } catch (error) {
