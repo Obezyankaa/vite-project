@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const { default: axios } = require("axios");
 const testRouter = require('./routes/TestRouter');
+const dbTestRouter = require('./routes/TestRouterDb');
 
 
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", testRouter); 
+app.use("/apidb", dbTestRouter);
 
 app.listen(PORT, () => {
   console.log(`Старт 🏎️ 💨 ${PORT}`);
