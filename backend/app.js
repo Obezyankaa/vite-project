@@ -6,9 +6,8 @@ const testRouter = require('./routes/TestRouter');
 const dbTestRouter = require('./routes/TestRouterDb');
 
 
-
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
@@ -26,6 +25,21 @@ app.get("/", (req, res) => {
 
 app.use("/api", testRouter); 
 app.use("/apidb", dbTestRouter);
+
+app.post("/api/save-data", async (req, res) => {
+  try {
+    const { inputData } = req.body;
+    
+    console.log(inputData);
+    // Ваш код для сохранения данных в базу данных
+    // Используйте соответствующую модель и методы ORM, чтобы сохранить данные в базу данных.
+
+    res.status(200).json({ message: "Данные успешно сохранены" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Произошла ошибка при сохранении данных" });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Старт 🏎️ 💨 ${PORT}`);

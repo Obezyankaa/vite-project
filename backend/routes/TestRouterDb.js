@@ -1,11 +1,11 @@
 const express = require("express");
 const axios = require("axios");
-const { Group, Student, Post } = require("../db/models");
+const { Group, Student, Post, Test } = require("../db/models");
 
 const router = express.Router();
 
-// (async function () {
-//   try {
+(async function () {
+  try {
 //     await Group.create({title: 'Bears'})
 //     await Student.create({
 //         name: 'Vlad',
@@ -19,16 +19,17 @@ const router = express.Router();
 //         {title: 'Dog' },
 //         { title: 'Elephant' }
 //     ])
-//     await Student.bulkCreate([
-//       { name: "Katya", groupId: 1 },
-//       { name: "Vlad", groupId: 1 },
-//       { name: "Dasha", groupId: 1 },
-//       { name: "Lera", groupId: 2 },
-//       { name: "Liza", groupId: 2 },
-//       { name: "Andrey", groupId: 3 },
-//       { name: "Alex", groupId: 3 },
-//       { name: "Bob", groupId: 3 },
-//     ]);
+    // await Test.bulkCreate([
+    //   {
+    //     body: "Katya ( Lorem ipsum dolor, sit amet consectetur adipisicing elit. Praesentium enim nisi voluptate ea, aliquam omnis obcaecati rerum unde? Iusto, et? )",
+    //   },
+    //   {
+    //     body: "Vlad ( Lorem ipsum dolor, sit amet consectetur adipisicing elit. Praesentium enim nisi voluptate ea, aliquam omnis obcaecati rerum unde? Iusto, et? )",
+    //   },
+    //   {
+    //     body: "Dasha ( Lorem ipsum dolor, sit amet consectetur adipisicing elit. Praesentium enim nisi voluptate ea, aliquam omnis obcaecati rerum unde? Iusto, et? )",
+    //   },
+    // ]);
 
 //     const response = await axios.get(
 //       "https://jsonplaceholder.typicode.com/posts"
@@ -43,21 +44,23 @@ const router = express.Router();
 //     const students = await Student.findAll({
 //       where: { groupId: 2 },
 //     });
-//   } catch (error) {
-//     console.log(error);
-//     }
+  } catch (error) {
+    console.log(error);
+    }
     
-// })();
+})();
 
 
 router.get("/test", async (req, res) => {
   try {
-    const students = await Student.findAll();
-      res.json(students)
+    const data = await Test.findAll();
+      res.json(data)
   } catch (error) {
     console.log(error);
   }
     
 });
+
+
 
 module.exports = router;

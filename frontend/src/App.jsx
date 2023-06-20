@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Form from "./Form";
+import DataArr from "./DataArr";
 
 
 export default function App() {
@@ -15,7 +17,7 @@ export default function App() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/data"); // Замените '/api/data' на ваш маршрут на бекенде
+      const response = await fetch("http://localhost:5173/api/data"); // Замените '/api/data' на ваш маршрут на бекенде
       const jsonData = await response.json();
       setData(jsonData);
     } catch (error) {
@@ -25,7 +27,7 @@ export default function App() {
 
    const fetchDataUser = async () => {
      try {
-       const response = await fetch("http://localhost:3001/apidb/test"); // Замените '/api/data' на ваш маршрут на бекенде
+       const response = await fetch("http://localhost:5173/apidb/test"); // Замените '/api/data' на ваш маршрут на бекенде
        const jsonData = await response.json();
        setUserData(jsonData);
      } catch (error) {
@@ -51,9 +53,12 @@ export default function App() {
       <h2>user</h2>
       <div>
         {user && user.map((el) => (
-          <ol key={el.id}>{el.name}</ol>
+          <li key={el.id}>{el.body}</li>
           ))}
       </div>
+
+      <Form />
+      <DataArr />
     </>
   );
 }
