@@ -1,37 +1,63 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { fetchForms } from "./store/Slice/formSlice";
 
 export default function Form() {
-  const [inputData, setInputData] = useState("");
-
-  const handleChange = (e) => {
-    setInputData(e.target.value);
-  };
+    const dispatch = useDispatch();
+    const [inputData, setInputData] = useState({
+      body:'', name:'', city:'',
+  });
+    
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+      setInputData((prevReviewData) => ({
+        ...prevReviewData,
+        [name]: value,
+      }));
+    };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+      e.preventDefault();
+      dispatch(fetchForms(e, inputData, setInputData));
 
-    try {
-      await axios.post("http://localhost:3001/apidb/postzapros", { inputData });
-
-      // Данные успешно сохранены
-      // Добавьте здесь код для обработки успешного сохранения данных,
-      // например, очистка формы или отображение уведомления об успешном сохранении.
-      // Очищаем поле ввода
-      setInputData("");
-    } catch (error) {
-      console.log(error);
-      // Произошла ошибка при сохранении данных
-      // Добавьте здесь код для обработки ошибки сохранения данных,
-      // например, отображение сообщения об ошибке или логирование ошибки.
-    }
+    // try {
+    //   await axios.post("http://localhost:3001/apidb/postzapros", { inputData });
+    //     setInputData({
+    //       body: "",
+    //       name: "",
+    //       city: "",
+    //     });
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" value={inputData} onChange={handleChange} />
-        <button type="submit">Сохранить</button>
+        <input
+          type="text"
+          name="body"
+          value={inputData.body}
+          onChange={handleChange}
+          placeholder="body"
+        />
+        <input
+          type="text"
+          name="name"
+          value={inputData.name}
+          onChange={handleChange}
+          placeholder="name"
+        />
+        <input
+          type="text"
+          name="city"
+          value={inputData.city}
+          onChange={handleChange}
+          placeholder="city"
+        />
+        <button type="submit">опубликовать</button>
       </form>
     </div>
   );
