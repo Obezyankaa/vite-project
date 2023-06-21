@@ -12,11 +12,13 @@ export default function Form() {
     e.preventDefault();
 
     try {
-      await axios.post("http://127.0.0.1:5173/api/save-data", { inputData });
+      await axios.post("http://localhost:3001/apidb/postzapros", { inputData });
 
       // Данные успешно сохранены
       // Добавьте здесь код для обработки успешного сохранения данных,
       // например, очистка формы или отображение уведомления об успешном сохранении.
+      // Очищаем поле ввода
+      setInputData("");
     } catch (error) {
       console.log(error);
       // Произошла ошибка при сохранении данных
@@ -28,7 +30,7 @@ export default function Form() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="text" value={inputData} onChange={handleChange} />
+        <input type="text" name="name" value={inputData} onChange={handleChange} />
         <button type="submit">Сохранить</button>
       </form>
     </div>

@@ -4,36 +4,20 @@ import DataArr from "./DataArr";
 
 
 export default function App() {
-  const [data, setData] = useState(null); 
-  const [user, setUserData] = useState(null);
+const [data, setData] = useState(null);
+const [user, setUserData] = useState(null);
 
+useEffect(() => {
+  fetch("http://localhost:3001/api/data")
+    .then((response) => response.json())
+    .then((jsonData) => setData(jsonData))
+    .catch((error) => console.error("Ошибка при получении данных:", error));
 
-  
-
-  useEffect(() => {
-    fetchData();
-    fetchDataUser();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch("http://localhost:5173/api/data"); // Замените '/api/data' на ваш маршрут на бекенде
-      const jsonData = await response.json();
-      setData(jsonData);
-    } catch (error) {
-      console.error('Ошибка при получении данных:', error);
-    }
-  }
-
-   const fetchDataUser = async () => {
-     try {
-       const response = await fetch("http://localhost:5173/apidb/test"); // Замените '/api/data' на ваш маршрут на бекенде
-       const jsonData = await response.json();
-       setUserData(jsonData);
-     } catch (error) {
-       console.error("Ошибка при получении данных:", error);
-     }
-   };
+  fetch("http://localhost:3001/apidb/getzapros")
+    .then((response) => response.json())
+    .then((jsonData) => setUserData(jsonData))
+    .catch((error) => console.error("Ошибка при получении данных:", error));
+}, []);
 
   console.log(user);
   return (
@@ -58,7 +42,7 @@ export default function App() {
       </div>
 
       <Form />
-      <DataArr />
+      {/* <DataArr /> */}
     </>
   );
 }
