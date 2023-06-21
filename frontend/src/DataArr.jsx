@@ -1,27 +1,27 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { incrementGap, incrementDepartment } from "./store/Slice/counterSlice";
 
 export default function DataArr() {
-    const [data, setData] = useState(null);
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-console.log(data);
-    return (
-        <div>
-            <div>данные </div>
-            {data && data.map((el) => (
-                <li key={el.id}>
-                    <span>{el.name}</span>
-                </li>
-            ))}
-        </div>
+      const count = useSelector((state) => state.counter.count);
+      const dispatch = useDispatch();
+  return (
+    <div>
+      <div>
+        <button
+          aria-label="Increment value"
+          onClick={() => dispatch(incrementGap())}
+        >
+          Increment
+        </button>
+        <div>{count}</div>
+        <button
+          aria-label="Decrement value"
+          onClick={() => dispatch(incrementDepartment())}
+        >
+          Decrement
+        </button>
+      </div>
+    </div>
   );
-};
+}

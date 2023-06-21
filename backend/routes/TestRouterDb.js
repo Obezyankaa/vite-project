@@ -51,13 +51,31 @@ const router = express.Router();
 })();
 
 
-router.get("/test", async (req, res) => {
+router.get("/getzapros", async (req, res) => {
   try {
     const data = await Test.findAll();
       res.json(data)
   } catch (error) {
     console.log(error);
   }
+    
+    
+
+router.post("/postzapros", async (req, res) => {
+  try {
+      const { inputData } = req.body;
+      await Test.create({ body: req.body.inputData });
+
+    console.log(inputData, '<---вот эта консоль');
+    // Ваш код для сохранения данных в базу данных
+    // Используйте соответствующую модель и методы ORM, чтобы сохранить данные в базу данных.
+
+    res.status(200).json({ message: "Данные успешно сохранены" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Произошла ошибка при сохранении данных" });
+  }
+});
     
 });
 
