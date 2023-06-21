@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@fullpage/react-fullpage": "^0.1.39",
+    "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
     "framer-motion": "^10.12.10",
@@ -23,6 +24,7 @@
     "react-fullpage": "^0.1.19",
     "react-parallax": "^3.5.1",
     "react-parallax-mouse": "^2.0.1",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.11.1",
     "react-scroll": "^1.8.9",
     "react-slider-swiper": "^2.0.6",
