@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Form from "./Form";
 import DataArr from "./DataArr";
 import { useDispatch, useSelector } from "react-redux";
-import { getFetchForm } from "./store/Slice/formSlice";
+import { getFetchForm, deleteForm } from "./store/Slice/formSlice";
 
 
 export default function App() {
@@ -12,8 +12,11 @@ export default function App() {
 useEffect(() => {
   dispatch(getFetchForm());
 }, [dispatch]);
-console.log(forms);
-  // console.log(user);
+  console.log(forms);
+  
+   const handleFormDelete = (formId) => {
+     dispatch(deleteForm(formId));
+   };
   return (
     <section>
       <h1>^_^</h1>
@@ -26,7 +29,12 @@ console.log(forms);
               <div>значение body ( {el.body} )</div>
               <div>значение name ( {el.name} )</div>
               <div>значение city ( {el.city} )</div>
-              <button style={{ marginLeft: "1rem" }}>удалить</button>
+              <button
+                style={{ marginLeft: "1rem" }}
+                onClick={() => handleFormDelete(el.id)}
+              >
+                удалить
+              </button>
               <button style={{ marginLeft: "1rem" }}>изменить</button>
             </li>
           ))}

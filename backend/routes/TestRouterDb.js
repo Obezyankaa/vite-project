@@ -76,4 +76,16 @@ router.post("/postzapros", async (req, res) => {
   }
 });
 
+
+router.delete("/postzapros/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Inputdb.destroy({ where: { id } });
+    res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+
 module.exports = router;

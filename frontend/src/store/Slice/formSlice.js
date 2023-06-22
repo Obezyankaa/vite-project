@@ -22,11 +22,22 @@ const formSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        deleteFormSuccess(state, action) {
+            const formId = action.payload;
+            state.forms = state.forms.filter((el) => el.id !== formId);
+        },
+        deleteFormFailure(state, action) {
+            state.error = action.payload;
+        }
     },
 });
 
 export const {
-    fetchFormsStart, fetchFormsSuccess, fetchFormsFailure
+  fetchFormsStart,
+  fetchFormsSuccess,
+  fetchFormsFailure,
+  deleteFormSuccess,
+  deleteFormFailure,
 } = formSlice.actions;
 
 
@@ -57,5 +68,15 @@ export const getFetchForm = () => async (dispatch) => {
         dispatch(fetchFormsFailure(error.message));
     }
 }
+
+
+export const deleteForm = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`http://localhost:3001/apidb/postzapros/${id}`);
+    dispatch(deleteFormSuccess(id));
+  } catch (error) {
+    dispatch(deleteFormFailure(error.message));
+  }
+};
 
 export default formSlice.reducer;
