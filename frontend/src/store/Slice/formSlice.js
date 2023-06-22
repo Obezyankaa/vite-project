@@ -79,4 +79,15 @@ export const deleteForm = (id) => async (dispatch) => {
   }
 };
 
+export const updateForm = (formId, updatedData) => async (dispatch) => {
+  try {
+    const response = await axios.patch(
+      `http://localhost:3001/apidb/getzapros/${formId}`,
+      updatedData
+    );
+    dispatch(fetchFormsSuccess(response.data));
+  } catch (error) {
+    dispatch(fetchFormsFailure(error.message));
+  }
+};
 export default formSlice.reducer;
