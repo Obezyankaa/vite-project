@@ -87,5 +87,23 @@ router.delete("/postzapros/:id", async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+router.patch("/getzapros/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    await Inputdb.update(updatedData, { where: { id } });
+
+    const updatedRecord = await Inputdb.findByPk(id); // Получаем обновленную запись из базы данных
+
+    console.log(updatedData);
+      console.log(updatedRecord);
+    res.status(200).json(updatedRecord);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Произошла ошибка при обновлении данных" });
+  }
+});
 // -----
 module.exports = router;
