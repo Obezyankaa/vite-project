@@ -8,44 +8,31 @@ import { getFetchForm } from "./store/Slice/formSlice";
 export default function App() {
   const dispatch = useDispatch();
   const forms = useSelector((state) => state.forms.forms);
-const [data, setData] = useState(null);
-const [user, setUserData] = useState(null);
 
 useEffect(() => {
-  fetch("http://localhost:3001/api/data")
-    .then((response) => response.json())
-    .then((jsonData) => setData(jsonData))
-    .catch((error) => console.error("Ошибка при получении данных:", error));
-
-  // fetch("http://localhost:3001/apidb/getzapros")
-  //   .then((response) => response.json())
-  //   .then((jsonData) => setUserData(jsonData))
-  //   .catch((error) => console.error("Ошибка при получении данных:", error));
-
   dispatch(getFetchForm());
-
 }, [dispatch]);
 console.log(forms);
   // console.log(user);
   return (
-    <>
-      <h1>App</h1>
-      <div>
-        {data ? (
-          <ul>
-            {data.map((item) => (
-              <li key={item.id}>{item.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>Загрузка данных...</p>
-        )}
-      </div>
-      <h2>user</h2>
-      <div>{forms && forms.map((el) => <li key={el.id}>{el.body}</li>)}</div>
-
+    <section>
+      <h1>^_^</h1>
       <Form />
+      <h3>значения из базы данных табличка Inputdb</h3>
+      <div>
+        {forms &&
+          forms.map((el) => (
+            <li key={el.id}>
+              <div>значение body ( {el.body} )</div>
+              <div>значение name ( {el.name} )</div>
+              <div>значение city ( {el.city} )</div>
+              <button style={{ marginLeft: "1rem" }}>удалить</button>
+              <button style={{ marginLeft: "1rem" }}>изменить</button>
+            </li>
+          ))}
+      </div>
+
       {/* <DataArr /> */}
-    </>
+    </section>
   );
 }

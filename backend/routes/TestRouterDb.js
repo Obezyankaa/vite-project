@@ -53,7 +53,7 @@ const router = express.Router();
 
 router.get("/getzapros", async (req, res) => {
   try {
-    const data = await Test.findAll();
+    const data = await Inputdb.findAll();
       res.json(data)
   } catch (error) {
     console.log(error);
@@ -67,7 +67,7 @@ router.post("/postzapros", async (req, res) => {
       
     await Inputdb.create({ body, name, city });
 
-    console.log(req.body.inputData, "<--- вот эта консоль");
+      console.log(req.body.inputData, "<--- вот эта консоль");
 
     res.status(200).json({ message: "Данные успешно сохранены" });
   } catch (error) {
