@@ -5,7 +5,7 @@ import axios from "axios";
 const formSlice = createSlice({
     name: 'forms',
     initialState: {
-        focus: [],
+        forms: [],
         loading: false,
         error: null,
     },
@@ -16,7 +16,7 @@ const formSlice = createSlice({
         },
         fetchFormsSuccess(state, action) {
             state.loading = false;
-            state.focus = action.payload;
+            state.forms = action.payload;
         },
         fetchFormsFailure(state, action) {
             state.loading = false;
@@ -44,5 +44,16 @@ export const fetchForms = (e, inputData, setInputData) => async (dispatch) => {
             });
         })
 };
+
+export const getFetchForm = () => async (dispatch) => {
+    dispatch(fetchFormsStart());
+
+    try {
+        const response = await axios.get("http://localhost:3001/apidb/getzapros");
+        dispatch(fetchFormsSuccess(response.data));
+    } catch (error) {
+        dispatch(fetchFormsFailure(error.message));
+    }
+}
 
 export default formSlice.reducer;

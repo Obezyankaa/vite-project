@@ -59,7 +59,7 @@ router.get("/getzapros", async (req, res) => {
     console.log(error);
   }
     
-    
+});
 
 router.post("/postzapros", async (req, res) => {
   try {
@@ -77,7 +77,6 @@ router.post("/postzapros", async (req, res) => {
   }
 });
     
-});
 
 
 
