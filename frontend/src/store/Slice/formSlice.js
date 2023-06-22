@@ -30,19 +30,21 @@ export const {
 } = formSlice.actions;
 
 
-export const fetchForms = (e, inputData, setInputData) => async (dispatch) => {
-     e.preventDefault();
-     dispatch(fetchFormsStart());
-    const formData = new FormData();
-    
-    axios.post("http://localhost:3001/apidb/postzapros", formData)
-        .then(() => {
-            setInputData({
-              body: "",
-              name: "",
-              city: "",
-            });
-        })
+export const fetchForms = (inputData, setInputData) => async (dispatch) => {
+  dispatch(fetchFormsStart());
+  console.log(inputData);
+
+  const formData = new FormData();
+
+  axios
+    .post("http://localhost:3001/apidb/postzapros", { inputData }) // Использование { inputData } вместо { data: inputData }
+    .then(() => {
+      setInputData({
+        body: "",
+        name: "",
+        city: "",
+      });
+    });
 };
 
 export const getFetchForm = () => async (dispatch) => {

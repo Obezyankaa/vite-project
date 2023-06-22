@@ -1,6 +1,6 @@
 const express = require("express");
 const axios = require("axios");
-const { Group, Student, Post, Test } = require("../db/models");
+const { Group, Student, Post, Test, Inputdb } = require("../db/models");
 
 const router = express.Router();
 
@@ -63,12 +63,11 @@ router.get("/getzapros", async (req, res) => {
 
 router.post("/postzapros", async (req, res) => {
   try {
-      const { inputData } = req.body;
-      await Test.create({ body: req.body.inputData });
+    const { body, name, city } = req.body.inputData;
+      
+    await Inputdb.create({ body, name, city });
 
-    console.log(inputData, '<---вот эта консоль');
-    // Ваш код для сохранения данных в базу данных
-    // Используйте соответствующую модель и методы ORM, чтобы сохранить данные в базу данных.
+    console.log(req.body.inputData, "<--- вот эта консоль");
 
     res.status(200).json({ message: "Данные успешно сохранены" });
   } catch (error) {
@@ -76,8 +75,5 @@ router.post("/postzapros", async (req, res) => {
     res.status(500).json({ message: "Произошла ошибка при сохранении данных" });
   }
 });
-    
-
-
 
 module.exports = router;

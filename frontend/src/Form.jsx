@@ -19,7 +19,7 @@ export default function Form() {
 
   const handleSubmit = async (e) => {
       e.preventDefault();
-      dispatch(fetchForms(e, inputData, setInputData));
+      dispatch(fetchForms(inputData, setInputData));
 
     // try {
     //   await axios.post("http://localhost:3001/apidb/postzapros", { inputData });

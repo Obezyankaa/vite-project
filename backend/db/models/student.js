@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(Group, { foreignKey: "groupId" });
       this.hasMany(Post, { foreignKey: "authorId" });
       this.hasMany(Test, { foreignKey: "authorId" });
-      this.hasMany(Inputdb, { foreignKey: "id" });
+      this.hasMany(Inputdb, { foreignKey: "authorId" });
     }
   }
   Student.init({
