@@ -5,7 +5,7 @@ import formSlice from "./Slice/formSlice";
 export default configureStore({
   reducer: {
     // добавьте все ваши редьюсеры здесь
-        counter: counterSlice,
-        form: formSlice,
+    counter: counterSlice,
+    forms: formSlice,
   },
 });

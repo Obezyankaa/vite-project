@@ -1,48 +1,46 @@
 import { useEffect, useState } from "react";
 import Form from "./Form";
 import DataArr from "./DataArr";
+import { useDispatch, useSelector } from "react-redux";
+import { getFetchForm, deleteForm } from "./store/Slice/formSlice";
 
 
 export default function App() {
-const [data, setData] = useState(null);
-const [user, setUserData] = useState(null);
+  const dispatch = useDispatch();
+  const forms = useSelector((state) => state.forms.forms);
 
 useEffect(() => {
-  fetch("http://localhost:3001/api/data")
-    .then((response) => response.json())
-    .then((jsonData) => setData(jsonData))
-    .catch((error) => console.error("Ошибка при получении данных:", error));
-
-  fetch("http://localhost:3001/apidb/getzapros")
-    .then((response) => response.json())
-    .then((jsonData) => setUserData(jsonData))
-    .catch((error) => console.error("Ошибка при получении данных:", error));
-}, []);
-
-  console.log(user);
+  dispatch(getFetchForm());
+}, [dispatch]);
+  console.log(forms);
+  
+   const handleFormDelete = (formId) => {
+     dispatch(deleteForm(formId));
+   };
   return (
-    <>
-      <h1>App</h1>
+    <section>
+      <h1>^_^</h1>
+      <Form />
+      <h3>значения из базы данных табличка Inputdb</h3>
       <div>
-        {data ? (
-          <ul>
-            {data.map((item) => (
-              <li key={item.id}>{item.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>Загрузка данных...</p>
-        )}
-      </div>
-      <h2>user</h2>
-      <div>
-        {user && user.map((el) => (
-          <li key={el.id}>{el.body}</li>
+        {forms &&
+          forms.map((el) => (
+            <li key={el.id}>
+              <div>значение body ( {el.body} )</div>
+              <div>значение name ( {el.name} )</div>
+              <div>значение city ( {el.city} )</div>
+              <button
+                style={{ marginLeft: "1rem" }}
+                onClick={() => handleFormDelete(el.id)}
+              >
+                удалить
+              </button>
+              <button style={{ marginLeft: "1rem" }}>изменить</button>
+            </li>
           ))}
       </div>
 
-      <Form />
       {/* <DataArr /> */}
-    </>
+    </section>
   );
 }

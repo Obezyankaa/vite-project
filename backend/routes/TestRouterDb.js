@@ -1,6 +1,6 @@
 const express = require("express");
 const axios = require("axios");
-const { Group, Student, Post, Test } = require("../db/models");
+const { Group, Student, Post, Test, Inputdb } = require("../db/models");
 
 const router = express.Router();
 
@@ -53,22 +53,21 @@ const router = express.Router();
 
 router.get("/getzapros", async (req, res) => {
   try {
-    const data = await Test.findAll();
+    const data = await Inputdb.findAll();
       res.json(data)
   } catch (error) {
     console.log(error);
   }
     
-    
+});
 
 router.post("/postzapros", async (req, res) => {
   try {
-      const { inputData } = req.body;
-      await Test.create({ body: req.body.inputData });
+    const { body, name, city } = req.body.inputData;
+      
+    await Inputdb.create({ body, name, city });
 
-    console.log(inputData, '<---вот эта консоль');
-    // Ваш код для сохранения данных в базу данных
-    // Используйте соответствующую модель и методы ORM, чтобы сохранить данные в базу данных.
+      console.log(req.body.inputData, "<--- вот эта консоль");
 
     res.status(200).json({ message: "Данные успешно сохранены" });
   } catch (error) {
@@ -76,9 +75,17 @@ router.post("/postzapros", async (req, res) => {
     res.status(500).json({ message: "Произошла ошибка при сохранении данных" });
   }
 });
-    
+
+
+router.delete("/postzapros/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Inputdb.destroy({ where: { id } });
+    res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
 });
-
-
-
+// -----
 module.exports = router;

@@ -5,7 +5,7 @@ import axios from "axios";
 const formSlice = createSlice({
     name: 'forms',
     initialState: {
-        focus: [],
+        forms: [],
         loading: false,
         error: null,
     },
@@ -16,33 +16,67 @@ const formSlice = createSlice({
         },
         fetchFormsSuccess(state, action) {
             state.loading = false;
-            state.focus = action.payload;
+            state.forms = action.payload;
         },
         fetchFormsFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
         },
+        deleteFormSuccess(state, action) {
+            const formId = action.payload;
+            state.forms = state.forms.filter((el) => el.id !== formId);
+        },
+        deleteFormFailure(state, action) {
+            state.error = action.payload;
+        }
     },
 });
 
 export const {
-    fetchFormsStart, fetchFormsSuccess, fetchFormsFailure
+  fetchFormsStart,
+  fetchFormsSuccess,
+  fetchFormsFailure,
+  deleteFormSuccess,
+  deleteFormFailure,
 } = formSlice.actions;
 
 
-export const fetchForms = (e, inputData, setInputData) => async (dispatch) => {
-     e.preventDefault();
-     dispatch(fetchFormsStart());
-    const formData = new FormData();
-    
-    axios.post("http://localhost:3001/apidb/postzapros", formData)
-        .then(() => {
-            setInputData({
-              body: "",
-              name: "",
-              city: "",
-            });
-        })
+export const fetchForms = (inputData, setInputData) => async (dispatch) => {
+  dispatch(fetchFormsStart());
+  console.log(inputData);
+
+  const formData = new FormData();
+
+  axios
+    .post("http://localhost:3001/apidb/postzapros", { inputData }) // Использование { inputData } вместо { data: inputData }
+    .then(() => {
+      setInputData({
+        body: "",
+        name: "",
+        city: "",
+      });
+    });
+};
+
+export const getFetchForm = () => async (dispatch) => {
+    dispatch(fetchFormsStart());
+
+    try {
+        const response = await axios.get("http://localhost:3001/apidb/getzapros");
+        dispatch(fetchFormsSuccess(response.data));
+    } catch (error) {
+        dispatch(fetchFormsFailure(error.message));
+    }
+}
+
+
+export const deleteForm = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`http://localhost:3001/apidb/postzapros/${id}`);
+    dispatch(deleteFormSuccess(id));
+  } catch (error) {
+    dispatch(deleteFormFailure(error.message));
+  }
 };
 
 export default formSlice.reducer;
