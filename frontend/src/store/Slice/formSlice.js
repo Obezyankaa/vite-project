@@ -28,8 +28,8 @@ const formSlice = createSlice({
         },
         deleteFormFailure(state, action) {
             state.error = action.payload;
-        }
     },
+  },
 });
 
 export const {
@@ -80,15 +80,20 @@ export const deleteForm = (id) => async (dispatch) => {
   }
 };
 
-export const updateForm = (formId, updatedData) => async (dispatch) => {
-  try {
-    const response = await axios.patch(
-      `http://localhost:3001/apidb/getzapros/${formId}`,
-      updatedData
-    );
-    dispatch(fetchFormsSuccess(response.data));
-  } catch (error) {
-    dispatch(fetchFormsFailure(error.message));
-  }
-};
+export const updateForm =
+  (formId, updatedData) => async (dispatch, getState) => {
+    try {
+      await axios.patch(
+        `http://localhost:3001/apidb/getzapros/${formId}`,
+        updatedData
+      );
+
+      const { forms } = getState().forms; // Получаем текущий список форм из состояния
+      const updatedForm = [...forms]; // Spread all forms
+
+      dispatch(fetchFormsSuccess(updatedForm)); // Передаем только обновленную форму в экшен fetchFormsSuccess
+    } catch (error) {
+      dispatch(fetchFormsFailure(error.message));
+    }
+  };
 export default formSlice.reducer;
