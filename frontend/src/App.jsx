@@ -37,15 +37,7 @@ export default function App() {
               >
                 удалить
               </button>
-              <button
-                style={{ marginLeft: "1rem" }}
-                onClick={() =>
-                  handleFormUpdate(el.id, {
-                    body: "Updated Body",
-                    name: "Updated Name",
-                    city: "Updated City",
-                  })}
-              >
+              <button style={{ marginLeft: "1rem" }}>
                 изменить
               </button>
             </li>

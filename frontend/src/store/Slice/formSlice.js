@@ -55,6 +55,7 @@ export const fetchForms = (inputData, setInputData) => async (dispatch) => {
         name: "",
         city: "",
       });
+      dispatch(getFetchForm()); // Добавлен этот вызов для получения обновленных данных после успешной отправки формы
     });
 };
 
