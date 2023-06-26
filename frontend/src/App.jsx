@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "./Form";
 import { getFetchForm, deleteForm, updateForm } from "./store/Slice/formSlice";
+import axios from "axios";
+
+import logo from './tanisha.png'
 
 export default function App() {
   const dispatch = useDispatch();
   const forms = useSelector((state) => state.forms.forms);
+  const [img, setImg] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+
   const [editingPost, setEditingPost] = useState(null);
   const [updatedData, setUpdatedData] = useState({
     body: "",
@@ -31,6 +37,24 @@ export default function App() {
     setEditingPost(null);
   };
 
+  const sendFile = useCallback( async () => {
+    try {
+      const data = new FormData()
+      data.append('avatar', img)
+      
+      await axios
+        .post("http://localhost:3001/api/upload", data, {
+          headers: {
+            "content-type": "mulpipart/form-data",
+          },
+        })
+
+        .then((res) => setAvatar(res.data.path));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [img])
+  console.log(avatar);
   return (
     <section>
       <h1>^_^</h1>
@@ -112,6 +136,15 @@ export default function App() {
             </li>
           ))}
       </div>
+      <div>
+        {avatar ? (
+          <img src={`http://localhost:3001/${avatar}`} alt="avatar" />
+        ) : (
+          <img src={`${logo}`} alt="logo" />
+        )}
+      </div>
+      <input type="file" onChange={(e) => setImg(e.target.files[0])} />
+      <button onClick={sendFile}>созранить</button>
     </section>
   );
 }
