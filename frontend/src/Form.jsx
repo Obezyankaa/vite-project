@@ -76,6 +76,7 @@ export default function Form() {
           name="image"
           value={inputData?.dropPhoto?.name}
           onChange={changeHandler}
+          multiple // добавь этот атрибут
         />
         <button type="submit">опубликовать</button>
       </form>

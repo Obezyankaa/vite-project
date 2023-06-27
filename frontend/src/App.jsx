@@ -69,11 +69,14 @@ export default function App() {
               <div>значение body ({el.body})</div>
               <div>значение name ({el.name})</div>
               <div>значение city ({el.city})</div>
-              <img
-                style={{ width: "30%" }}
-                src={`http://localhost:3001/images/${el.image}`}
-                alt=""
-              />
+              {el.image.split(", ").map((imageName) => (
+                <img
+                  key={imageName}
+                  style={{ width: "30%" }}
+                  src={`http://localhost:3001/images/${imageName}`}
+                  alt=""
+                />
+              ))}
               {editingPost === el.id ? (
                 <div>
                   <input
@@ -142,19 +145,6 @@ export default function App() {
             </li>
           ))}
       </div>
-      <div>
-        {avatar ? (
-          <img
-            style={{ width: "50%" }}
-            src={`http://localhost:3001/${avatar}`}
-            alt="avatar"
-          />
-        ) : (
-          <img style={{ width: "50%" }} src={`${logo}`} alt="logo" />
-        )}
-      </div>
-      <input type="file" onChange={(e) => setImg(e.target.files[0])} />
-      <button onClick={sendFile}>созранить</button>
     </section>
   );
 }
