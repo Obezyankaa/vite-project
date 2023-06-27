@@ -138,9 +138,13 @@ export default function App() {
       </div>
       <div>
         {avatar ? (
-          <img src={`http://localhost:3001/${avatar}`} alt="avatar" />
+          <img
+            style={{ width: "50%" }}
+            src={`http://localhost:3001/${avatar}`}
+            alt="avatar"
+          />
         ) : (
-          <img src={`${logo}`} alt="logo" />
+          <img style={{ width: "50%" }} src={`${logo}`} alt="logo" />
         )}
       </div>
       <input type="file" onChange={(e) => setImg(e.target.files[0])} />
