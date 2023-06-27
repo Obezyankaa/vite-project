@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const { Group, Student, Post, Test, Inputdb } = require("../db/models");
+const fileMiddleware = require('../middleware/file');
 
 const router = express.Router();
 
@@ -61,15 +62,23 @@ router.get("/getzapros", async (req, res) => {
     
 });
 
-router.post("/postzapros", async (req, res) => {
+router.post("/postzapros", fileMiddleware.array('dropPhoto', 4), async (req, res) => {
   try {
-    const { body, name, city } = req.body.inputData;
-      
-    await Inputdb.create({ body, name, city });
-
-      console.log(req.body.inputData, "<--- вот эта консоль");
+    await Inputdb.create({
+      body: req.body.body,
+      name: req.body.name,
+      city: req.body.city,
+      image: req.files.map((file) => file.originalname).join(", "), // Объединяем имена файлов через запятую
+    });
 
     res.status(200).json({ message: "Данные успешно сохранены" });
+    // const { body, name, city } = req.body.inputData;
+
+    // await Inputdb.create({ body, name, city });
+
+    //   console.log(req.body.inputData, "<--- вот эта консоль");
+
+    // res.status(200).json({ message: "Данные успешно сохранены" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Произошла ошибка при сохранении данных" });
