@@ -1,50 +1,64 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { fetchForms } from "./store/Slice/formSlice";
 
 export default function Form() {
-    const dispatch = useDispatch();
-    const [inputData, setInputData] = useState({
-      body:'', name:'', city:'',
+  const dispatch = useDispatch();
+   const [inputData, setInputData] = useState({
+      body:'', name:'', city:'', dropPhoto: [],
   });
     
-    const handleChange = (event) => {
-      const { name, value } = event.target;
-      setInputData((prevReviewData) => ({
-        ...prevReviewData,
-        [name]: value,
-      }));
-    };
+     const changeHandler = (event) => {
+       if (event.target.files) {
+         setInputData((prev) => ({
+           ...prev,
+           dropPhoto: event.target.files,
+         }));
+       } else {
+         setInputData((prev) => ({
+           ...prev,
+           [event.target.name]: event.target.value,
+         }));
+       }
+     };
 
-  const handleSubmit = async (e) => {
-      e.preventDefault();
-      dispatch(fetchForms(inputData, setInputData));
+  const submitHendler = async (e) => {
+    e.preventDefault();
+    dispatch(fetchForms(inputData, setInputData));
   };
 
+  console.log(inputData);
+  
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={submitHendler}>
         <input
           type="text"
           name="body"
           value={inputData.body}
-          onChange={handleChange}
+          onChange={changeHandler}
           placeholder="body"
         />
         <input
           type="text"
           name="name"
           value={inputData.name}
-          onChange={handleChange}
+          onChange={changeHandler}
           placeholder="name"
         />
         <input
           type="text"
           name="city"
           value={inputData.city}
-          onChange={handleChange}
+          onChange={changeHandler}
           placeholder="city"
+        />
+        <input
+          type="file"
+          name="image"
+          value={inputData?.dropPhoto?.name}
+          onChange={changeHandler}
+          multiple // добавь этот атрибут
         />
         <button type="submit">опубликовать</button>
       </form>

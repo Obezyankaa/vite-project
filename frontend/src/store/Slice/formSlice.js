@@ -43,17 +43,26 @@ export const {
 
 export const fetchForms = (inputData, setInputData) => async (dispatch) => {
   dispatch(fetchFormsStart());
-  console.log(inputData);
-
   const formData = new FormData();
+    for (const key in inputData) {
+      if (typeof inputData[key] === "object") {
+        for (const file in inputData[key]) {
+          formData.append("dropPhoto", inputData[key][file]);
+        }
+      } else {
+        formData.append(key, inputData[key]);
+      }
+    }
+
 
   axios
-    .post("http://localhost:3001/apidb/postzapros", { inputData }) // Использование { inputData } вместо { data: inputData }
+    .post("http://localhost:3001/apidb/postzapros", formData) // Использование { inputData } вместо { data: inputData }
     .then(() => {
       setInputData({
         body: "",
         name: "",
         city: "",
+        dropPhoto: [],
       });
       dispatch(getFetchForm()); // Добавлен этот вызов для получения обновленных данных после успешной отправки формы
     });

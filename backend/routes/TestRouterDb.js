@@ -1,6 +1,9 @@
 const express = require("express");
 const axios = require("axios");
 const { Group, Student, Post, Test, Inputdb } = require("../db/models");
+const fileMiddleware = require('../middleware/file');
+const path = require("path");
+const fs = require("fs");
 
 const router = express.Router();
 
@@ -61,25 +64,39 @@ router.get("/getzapros", async (req, res) => {
     
 });
 
-router.post("/postzapros", async (req, res) => {
+router.post("/postzapros", fileMiddleware.array('dropPhoto', 4), async (req, res) => {
   try {
-    const { body, name, city } = req.body.inputData;
-      
-    await Inputdb.create({ body, name, city });
-
-      console.log(req.body.inputData, "<--- вот эта консоль");
+    await Inputdb.create({
+      body: req.body.body,
+      name: req.body.name,
+      city: req.body.city,
+      image: req.files.map((file) => file.originalname).join(", "), // Объединяем имена файлов через запятую
+    });
 
     res.status(200).json({ message: "Данные успешно сохранены" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Произошла ошибка при сохранении данных" });
   }
+  console.log(req.files);
 });
 
 
 router.delete("/postzapros/:id", async (req, res) => {
   try {
     const { id } = req.params;
+    const post = await Inputdb.findByPk(id);
+
+    // Удаление фотографий
+    const imageNames = post.image.split(", ");
+    console.log(imageNames);
+    imageNames.forEach((imageName) => {
+      const imagePath = path.join(__dirname, "..", "images", imageName);
+      console.log(imagePath);
+      fs.unlinkSync(imagePath);
+    });
+
+    // Удаление поста
     await Inputdb.destroy({ where: { id } });
     res.sendStatus(200);
   } catch (e) {
