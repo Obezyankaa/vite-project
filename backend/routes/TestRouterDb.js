@@ -2,6 +2,8 @@ const express = require("express");
 const axios = require("axios");
 const { Group, Student, Post, Test, Inputdb } = require("../db/models");
 const fileMiddleware = require('../middleware/file');
+const path = require("path");
+const fs = require("fs");
 
 const router = express.Router();
 
@@ -83,6 +85,18 @@ router.post("/postzapros", fileMiddleware.array('dropPhoto', 4), async (req, res
 router.delete("/postzapros/:id", async (req, res) => {
   try {
     const { id } = req.params;
+    const post = await Inputdb.findByPk(id);
+
+    // Удаление фотографий
+    const imageNames = post.image.split(", ");
+    console.log(imageNames);
+    imageNames.forEach((imageName) => {
+      const imagePath = path.join(__dirname, "..", "images", imageName);
+      console.log(imagePath);
+      fs.unlinkSync(imagePath);
+    });
+
+    // Удаление поста
     await Inputdb.destroy({ where: { id } });
     res.sendStatus(200);
   } catch (e) {

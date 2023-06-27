@@ -27,24 +27,6 @@ export default function Form() {
     dispatch(fetchForms(inputData, setInputData));
   };
 
-  //   const sendFile = useCallback(async () => {
-  //     try {
-  //       const data = new FormData();
-  //       data.append("avatar", img);
-
-  //       await axios
-  //         .post("http://localhost:3001/api/upload", data, {
-  //           headers: {
-  //             "content-type": "mulpipart/form-data",
-  //           },
-  //         })
-
-  //         .then((res) => setAvatar(res.data.path));
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }, [img]);
-  // console.log(avatar);
   console.log(inputData);
   
   return (
