@@ -64,22 +64,28 @@ router.get("/getzapros", async (req, res) => {
     
 });
 
-router.post("/postzapros", fileMiddleware.array('dropPhoto', 4), async (req, res) => {
-  try {
-    await Inputdb.create({
-      body: req.body.body,
-      name: req.body.name,
-      city: req.body.city,
-      image: req.files.map((file) => file.originalname).join(", "), // Объединяем имена файлов через запятую
-    });
+router.post(
+  "/postzapros",
+  fileMiddleware.array("dropPhoto", 4),
+  async (req, res) => {
+    try {
+      await Inputdb.create({
+        body: req.body.body,
+        name: req.body.name,
+        city: req.body.city,
+        image: req.files.map((file) => file.originalname).join(", "), // Объединяем имена фотографий через запятую
+        // video: req.files.find((file) => file.fieldname === "dropVideo").filename,
+      });
 
-    res.status(200).json({ message: "Данные успешно сохранены" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Произошла ошибка при сохранении данных" });
+      res.status(200).json({ message: "Данные успешно сохранены" });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ message: "Произошла ошибка при сохранении данных" });
+    }
   }
-  console.log(req.files);
-});
+);
 
 
 router.delete("/postzapros/:id", async (req, res) => {

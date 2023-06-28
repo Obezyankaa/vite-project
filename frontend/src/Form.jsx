@@ -4,32 +4,43 @@ import { fetchForms } from "./store/Slice/formSlice";
 
 export default function Form() {
   const dispatch = useDispatch();
-   const [inputData, setInputData] = useState({
-      body:'', name:'', city:'', dropPhoto: [],
+  const [inputData, setInputData] = useState({
+    body: "",
+    name: "",
+    city: "",
+    dropPhoto: [],
+    dropVideo: null, // Новое поле для загрузки видео
   });
-    
-     const changeHandler = (event) => {
-       if (event.target.files) {
-         setInputData((prev) => ({
-           ...prev,
-           dropPhoto: event.target.files,
-         }));
-       } else {
-         setInputData((prev) => ({
-           ...prev,
-           [event.target.name]: event.target.value,
-         }));
-       }
-     };
 
-  const submitHendler = async (e) => {
+  const changeHandler = (event) => {
+    if (event.target.files) {
+      if (event.target.name === "dropPhoto") {
+        setInputData((prev) => ({
+          ...prev,
+          dropPhoto: event.target.files,
+        }));
+      } else if (event.target.name === "dropVideo") {
+        setInputData((prev) => ({
+          ...prev,
+          dropVideo: event.target.files[0],
+        }));
+      }
+    } else {
+      setInputData((prev) => ({
+        ...prev,
+        [event.target.name]: event.target.value,
+      }));
+    }
+  };
+
+  const submitHandler = async (e) => {
     e.preventDefault();
     dispatch(fetchForms(inputData, setInputData));
   };
-
+console.log(inputData);
   return (
     <div>
-      <form onSubmit={submitHendler}>
+      <form onSubmit={submitHandler}>
         <input
           type="text"
           name="body"
@@ -51,32 +62,27 @@ export default function Form() {
           onChange={changeHandler}
           placeholder="city"
         />
-        <input
-          type="file"
-          name="image"
-          value={inputData?.dropPhoto?.name}
-          onChange={changeHandler}
-          multiple // добавь этот атрибут
-        />
+        <label>
+          Загрузить фото
+          <input
+            type="file"
+            name="dropPhoto"
+            onChange={changeHandler}
+            multiple
+          />
+        </label>
+
+        {/* <label>
+          Загрузить видео
+          <input
+            type="file"
+            name="dropVideo"
+            onChange={changeHandler}
+            accept="video/mp4, video/quicktime, video/webm, video/ogg, video/3gpp, video/x-msvideo"
+          />
+        </label> */}
         <button type="submit">опубликовать</button>
       </form>
     </div>
   );
 }
-
-
-//   authorId: {
-//         type: Sequelize.INTEGER,
-//         references: {
-//           model: "Students",
-//           key: "id",
-//         },
-// },
-  
-
-  // static associate({ Student }) {
-  //     // define association here
-  //     this.belongsTo(Student, { foreignKey: "authorId" });
-  //   }
-
-  // npx sequelize-cli model:generate --name inputdb --attributes body:text,name:string,city:string,authorid:integer,image:string,video:blob;
