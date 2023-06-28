@@ -78,3 +78,5 @@ export default function Form() {
   //     // define association here
   //     this.belongsTo(Student, { foreignKey: "authorId" });
   //   }
+
+  // npx sequelize-cli model:generate --name inputdb --attributes body:text,name:string,city:string,authorid:integer,image:string,video:blob;
