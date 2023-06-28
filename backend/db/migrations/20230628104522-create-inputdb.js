@@ -18,15 +18,18 @@ module.exports = {
       city: {
         type: Sequelize.STRING,
       },
-      authorId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Students",
-          key: "id",
-        },
+        authorId: {
+              type: Sequelize.INTEGER,
+              references: {
+                model: "Students",
+                key: "id",
+              },
       },
       image: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
+      },
+      video: {
+        type: Sequelize.BLOB,
       },
       createdAt: {
         allowNull: false,

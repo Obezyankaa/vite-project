@@ -55,7 +55,7 @@ export default function App() {
     }
   }, [img])
 
-  console.log(forms);
+  console.log(forms, '<---FORMS');
   return (
     <section>
       <h1>^_^</h1>

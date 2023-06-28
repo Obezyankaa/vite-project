@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     city: DataTypes.STRING,
     authorId: DataTypes.INTEGER,
-    image: DataTypes.STRING
+    image: DataTypes.TEXT,
+    video: DataTypes.BLOB
   }, {
     sequelize,
     modelName: 'Inputdb',

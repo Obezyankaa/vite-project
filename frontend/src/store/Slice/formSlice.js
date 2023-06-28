@@ -52,7 +52,11 @@ export const fetchForms = (inputData, setInputData) => async (dispatch) => {
       } else {
         formData.append(key, inputData[key]);
       }
-    }
+  }
+  
+  // if (inputData.dropVideo !== null) {
+  //   formData.append("dropVideo", inputData.dropVideo);
+  // }
 
 
   axios
@@ -63,6 +67,7 @@ export const fetchForms = (inputData, setInputData) => async (dispatch) => {
         name: "",
         city: "",
         dropPhoto: [],
+        dropVideo: null,
       });
       dispatch(getFetchForm()); // Добавлен этот вызов для получения обновленных данных после успешной отправки формы
     });
