@@ -27,8 +27,6 @@ export default function Form() {
     dispatch(fetchForms(inputData, setInputData));
   };
 
-  console.log(inputData);
-  
   return (
     <div>
       <form onSubmit={submitHendler}>
@@ -65,3 +63,18 @@ export default function Form() {
     </div>
   );
 }
+
+
+//   authorId: {
+//         type: Sequelize.INTEGER,
+//         references: {
+//           model: "Students",
+//           key: "id",
+//         },
+// },
+  
+
+  // static associate({ Student }) {
+  //     // define association here
+  //     this.belongsTo(Student, { foreignKey: "authorId" });
+  //   }

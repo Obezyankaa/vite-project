@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate({ Student }) {
-      // define association here
-      this.belongsTo(Student, { foreignKey: "authorId" });
-    }
+        // define association here
+        this.belongsTo(Student, { foreignKey: "authorId" });
+      }
   }
   Inputdb.init({
     body: DataTypes.TEXT,
